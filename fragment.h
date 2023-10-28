@@ -16,6 +16,9 @@ enum class ObjectType {
     EARTH,
     JUPITER,
     MOON,
+    GASEOSO,
+    ANTITIERRA,
+    PLANETACOLOR,
     // Agrega más tipos de objetos si es necesario
 };
 

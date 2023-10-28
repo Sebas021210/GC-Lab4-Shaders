@@ -92,6 +92,12 @@ void render(const std::vector<glm::vec3>& VBO, const Uniforms& uniforms) {
             jupiter(fragment, uniforms.time);
         } else if (uniforms.objectType == ObjectType::MOON) {
             moon(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::GASEOSO) {
+            planetaGaseoso(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::ANTITIERRA) {
+            antiTierra(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::PLANETACOLOR) {
+            planetaColor(fragment, uniforms.time);
         }
 
         // Finalmente, coloca el fragmento en el framebuffer
@@ -221,10 +227,14 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(renderer);
         clearFramebuffer();
 
-        uniforms.objectType = ObjectType::JUPITER;
+        uniforms.objectType = ObjectType::SUN;
+        //uniforms.objectType = ObjectType::SUN;
         //uniforms.objectType = ObjectType::EARTH;
         //uniforms.objectType = ObjectType::JUPITER;
         //uniforms.objectType = ObjectType::MOON;
+        //uniforms.objectType = ObjectType::GASEOSO;
+        //uniforms.objectType = ObjectType::ANTITIERRA;
+        //uniforms.objectType = ObjectType::PLANETACOLOR;
 
         render(vertexBufferObject, uniforms);
 
