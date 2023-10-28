@@ -6,4 +6,6 @@ struct Uniforms {
     glm::mat4 view;
     glm::mat4 projection;
     glm::mat4 viewport;
+    ObjectType objectType;
+    float time;
 };

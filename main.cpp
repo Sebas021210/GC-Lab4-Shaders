@@ -81,13 +81,23 @@ void render(const std::vector<glm::vec3>& VBO, const Uniforms& uniforms) {
 
     // 4. Fragment Shader
     for (size_t i = 0; i < fragments.size(); ++i) {
-        const Fragment& fragment = fragmentShader(fragments[i]);
-        // Apply the fragment shader to compute the final color
+        Fragment& fragment = fragments[i];
 
-        point(fragment);  // Be aware of potential race conditions here
+        // Llama a la función de sombreado correspondiente según el tipo de objeto
+        if (uniforms.objectType == ObjectType::SUN) {
+            sun(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::EARTH) {
+            earth(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::JUPITER) {
+            jupiter(fragment, uniforms.time);
+        } else if (uniforms.objectType == ObjectType::MOON) {
+            moon(fragment, uniforms.time);
+        }
+
+        // Finalmente, coloca el fragmento en el framebuffer
+        point(fragment);  // Ten en cuenta posibles condiciones de carrera aquí
     }
 }
-
 
 glm::mat4 createViewportMatrix(size_t screenWidth, size_t screenHeight) {
     glm::mat4 viewport = glm::mat4(1.0f);
@@ -210,6 +220,11 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         clearFramebuffer();
+
+        uniforms.objectType = ObjectType::SUN;
+        //uniforms.objectType = ObjectType::EARTH;
+        //uniforms.objectType = ObjectType::JUPITER;
+        //uniforms.objectType = ObjectType::MOON;
 
         render(vertexBufferObject, uniforms);
 

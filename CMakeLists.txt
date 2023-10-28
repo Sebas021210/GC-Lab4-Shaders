@@ -17,5 +17,5 @@ set(GLM_INCLUDE_DIR "C:/Users/50242/Documents/Universidad/TercerAño/GraficasCom
 include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIR} ${SDL2_image_DIR} ${SDL2_image_LIB_DIR})
 link_directories(${SDL2_LIB_DIR} ${SDL2_image_DIR} ${SDL2_image_LIB_DIR})
 
-add_executable(GC_Lab4_Shaders main.cpp camera.h color.h FastNoise.h FastNoiseLite.h fragment.h framebuffer.h line.h noise.h ObjLoader.cpp print.h shaders.h texture.h triangle.h uniforms.h)
+add_executable(GC_Lab4_Shaders main.cpp camera.h color.h FastNoise.h FastNoiseLite.h fragment.h framebuffer.h line.h noise.h ObjLoader.cpp print.h shaders.h triangle.h uniforms.h)
 target_link_libraries(GC_Lab4_Shaders SDL2main SDL2 SDL2_image)
