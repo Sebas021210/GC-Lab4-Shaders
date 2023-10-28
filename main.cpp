@@ -221,7 +221,7 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(renderer);
         clearFramebuffer();
 
-        uniforms.objectType = ObjectType::SUN;
+        uniforms.objectType = ObjectType::JUPITER;
         //uniforms.objectType = ObjectType::EARTH;
         //uniforms.objectType = ObjectType::JUPITER;
         //uniforms.objectType = ObjectType::MOON;

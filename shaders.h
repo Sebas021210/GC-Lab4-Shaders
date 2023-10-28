@@ -117,20 +117,40 @@ Fragment jupiter(Fragment& fragment, float time) {
     // Get UV coordinates
     glm::vec2 uv = glm::vec2(fragment.originalPos.x, fragment.originalPos.y);
 
+    // Definir un radio para Júpiter
+    float jupiterRadius = 0.5; // Ajusta este valor según tus necesidades
+
+    // Calcular la distancia desde el centro de Júpiter
+    float distance = length(uv);
+
+    // Ajustar el color de base de Júpiter
+    glm::vec3 jupiterColor = glm::vec3(0.6, 0.3, 0.1); // Ajusta este valor según tus necesidades
+
+    // Añadir bandas atmosféricas de Júpiter
+    float bands = sin(15.0 * distance);
+
+    // Ajusta la apariencia de las bandas
+    float bandsIntensity = (0.5 + 0.5 * bands); // Ajusta los valores para controlar la apariencia de las bandas
+
+    // Aplicar variaciones de color basadas en ruido
     FastNoiseLite noiseGenerator;
     noiseGenerator.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
     float offsetX = 10000.0f;
     float offsetY = 10000.0f;
-    float scale = 9000.0f;
+    float scale = 2000.0f;
 
-    // Generate noise for the clouds
-    float noiseValue = noiseGenerator.GetNoise((uv.x + offsetX) * scale, (uv.y + offsetY) * scale);
+    // Generar ruido para las variaciones en el color
+    float colorNoiseValue = noiseGenerator.GetNoise((uv.x + offsetX) * scale, (uv.y + offsetY) * scale);
 
-    // Map noise to cloud color
-    glm::vec3 cloudColor = glm::vec3(0.8f, 0.8f, 0.6f) + noiseValue * 0.1f;
+    // Aplicar variaciones de color
+    glm::vec3 finalColor = jupiterColor + glm::vec3(colorNoiseValue * 0.05); // Ajusta el factor de ruido según tus necesidades
 
-    color = Color(cloudColor.r, cloudColor.g, cloudColor.b);
+    // Añadir las bandas atmosféricas a las variaciones de color
+    finalColor *= bandsIntensity;
+
+    // Aplicar el color final
+    color = Color(finalColor.r, finalColor.g, finalColor.b);
 
     fragment.color = color * fragment.intensity;
 
@@ -150,13 +170,18 @@ Fragment moon(Fragment& fragment, float time) {
     // Generate noise for the moon's surface
     float noiseValue = noiseGenerator.GetNoise(fragment.originalPos.x * scale, fragment.originalPos.y * scale);
 
-    // Map noise to moon color
-    float moonColor = 0.8f + noiseValue * 0.2f;
+    // Definir un umbral para identificar cráteres
+    float craterThreshold = 0.01f;
 
-    color = Color(moonColor, moonColor, moonColor);
+    if (noiseValue < craterThreshold) {
+        // Usar un color más claro para representar cráteres
+        color = Color(0.9f, 0.9f, 0.9f);
+    } else {
+        // Usar un color uniforme para la superficie de la luna
+        color = Color(0.8f, 0.8f, 0.8f);
+    }
 
     fragment.color = color * fragment.intensity;
 
     return fragment;
 }
-
